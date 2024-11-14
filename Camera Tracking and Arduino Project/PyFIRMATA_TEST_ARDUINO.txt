@@ -1,0 +1,31 @@
+import pyfirmata
+import time
+
+# Tentukan port sesuai dengan port yang digunakan Arduino
+port = 'COM3'  # Sesuaikan COM port, contoh: 'COM3' di Windows atau '/dev/ttyUSB0' di Linux/Mac
+board = pyfirmata.Arduino(port)
+
+# Setup untuk LED pada pin digital (misal, LED pada pin 13)
+led_pin = board.get_pin('d:13:o')  # 'd' untuk digital, '13' nomor pin, 'o' untuk output
+
+# Fungsi untuk menyalakan LED
+def led_on():
+    led_pin.write(1)  # Mengatur pin menjadi HIGH
+    print("LED menyala")
+
+# Fungsi untuk mematikan LED
+def led_off():
+    led_pin.write(0)  # Mengatur pin menjadi LOW
+    print("LED mati")
+
+# Loop nyala-mati LED
+try:
+    while True:
+        led_on()
+        time.sleep(1)  # Tunggu 1 detik
+        led_off()
+        time.sleep(1)  # Tunggu 1 detik
+except KeyboardInterrupt:
+    print("Program dihentikan")
+finally:
+    board.exit()  # Menutup koneksi dengan Arduino
